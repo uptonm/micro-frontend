@@ -21,11 +21,11 @@ jobs:
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: install # will run `yarn install` command
-          dir: react-micro-frontend/container
+          entryPoint: react-micro-frontend/container
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: build # will run `yarn build` command
-          dir: react-micro-frontend/container
+          entryPoint: react-micro-frontend/container
       - uses: chrislennon/action-aws-cli@v1.1
       - run: aws s3 sync dist s3://${{ secrets.S3_BUCKET_NAME }}/container/latest
         env:
