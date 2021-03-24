@@ -6,11 +6,11 @@ on:
       - main
       - master
     paths:
-      - '/react-micro-frontend/container/**'
+      - 'react-micro-frontend/container/**'
 
 defaults:
   run:
-    working-directory: /react-micro-frontend/container
+    working-directory: react-micro-frontend/container
 
 jobs:
   build:
