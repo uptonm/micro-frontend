@@ -5,8 +5,8 @@ on:
     branches:
       - main
       - master
-    paths:
-      - 'react-micro-frontend/container/**'
+#     paths:
+#       - 'react-micro-frontend/container/**'
 
 defaults:
   run:
@@ -18,14 +18,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: borales/actions-yarn@v2.0.0
-        with:
-          cmd: install # will run `yarn install` command
-          entryPoint: react-micro-frontend/container
-      - uses: borales/actions-yarn@v2.0.0
-        with:
-          cmd: build # will run `yarn build` command
-          entryPoint: react-micro-frontend/container
+      - uses: c-hive/gha-yarn-cache@v1
+      - run: yarn install
+      - run: yarn build
       - uses: chrislennon/action-aws-cli@v1.1
       - run: aws s3 sync dist s3://${{ secrets.S3_BUCKET_NAME }}/container/latest
         env:
