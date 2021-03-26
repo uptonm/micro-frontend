@@ -7,7 +7,6 @@ on:
       - master
     paths:
       - 'react-micro-frontend/container/**'
-      - '.github/workflows/container.yml'
 
 defaults:
   run:
