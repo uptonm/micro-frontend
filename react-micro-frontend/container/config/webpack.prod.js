@@ -4,7 +4,7 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 const commonConfig = require("./webpack.common.js");
 const pkg = require("../package.json");
 
-const domain = process.env.PROD_URI;
+const domain = process.env.AWS_CLOUDFRONT_DOMAIN;
 
 const prodConfig = {
     mode: "production",
@@ -18,7 +18,7 @@ const prodConfig = {
             shared: pkg.dependencies,
             filename: "remoteEntry.js",
             remotes: {
-                "marketing": `marketing@${domain}/marketing/remoteEntry.js`
+                "marketing": `marketing@${domain}/marketing/latest/remoteEntry.js`
             }
         })
     ]
