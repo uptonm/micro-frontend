@@ -24,8 +24,10 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install
       - run: yarn build
-      - run: ls -la
-      - uses: shinyinc/action-aws-cli@v1.2    
+      - name: Sanity Check
+        run: ls -la
+      - name: Sanity Check p2
+        run: cd ./dist && ls -la && cd ..
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@master
         with:
@@ -35,4 +37,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          SOURCE_DIR: "dist"
+          SOURCE_DIR: "./dist"
