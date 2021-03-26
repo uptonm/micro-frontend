@@ -5,8 +5,8 @@ on:
     branches:
       - main
       - master
-#     paths:
-#       - 'react-micro-frontend/container/**'
+    paths:
+      - 'react-micro-frontend/container/**'
 
 defaults:
   run:
