@@ -17,17 +17,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v2
+      - name: Checkout from main branch
+        uses: actions/checkout@v2
+      - name: Initial Cache check
+        uses: actions/cache@v2
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn install
-      - run: yarn build
-      - name: Sanity Check
-        run: ls -la
-      - name: Sanity Check p2
-        run: cd ./dist && ls -la && cd ..
+      - name: Install Dependencies
+        run: yarn install
+      - name: Build Webpack Distribution
+        run: yarn build
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@master
         with:
@@ -38,3 +38,12 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
           SOURCE_DIR: "react-micro-frontend/container/dist"
+      # Invalidate Cloudfront (this action)
+      - name: Invalidate CloudFront Edge Cache
+        uses: chetan/invalidate-cloudfront-action@master
+        env:
+          DISTRIBUTION: ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION }}
+          PATHS: 'container/latest/index.html'
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
