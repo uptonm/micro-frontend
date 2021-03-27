@@ -39,8 +39,8 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Deploy to S3
         run: aws s3 sync dist/ s3://${{ secrets.S3_BUCKET_NAME }}/container/latest --delete
-        env:
-          AWS_S3_BUCKET: ${{ secrets.S3_BUCKET_NAME }}/container/latest
+#        env:
+#          AWS_S3_BUCKET: ${{ secrets.S3_BUCKET_NAME }}/container/latest
       # Invalidate Cloudfront (this action)
 #      - name: Invalidate CloudFront Edge Cache
 #        uses: chetan/invalidate-cloudfront-action@master
